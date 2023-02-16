@@ -1,0 +1,10 @@
+$if(title)$
+\title{$title$}
+$endif$
+\authorsnames{$for(authors)$$it.name.literal$$sep$, $endfor$}
+\authorsaffiliations{
+    $for(by-author)${$for(it.affiliations)$$it.name$$sep$, $endfor$}$sep$, 
+    $endfor$
+}
+
+
