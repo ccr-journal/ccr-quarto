@@ -10,8 +10,12 @@ author:
 abstract: |
   This is the abstract.
   Hence, it is not concrete.
-execute:
-  keep-md: true
+keywords: bla, blo
+volume: 1
+pubnumber: 1
+pubyear: 2019
+firstpage: 1
+doi: 10.5117/CCR2019.1.001.VANA
 ---
 
 ## Quarto

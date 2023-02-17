@@ -70,8 +70,8 @@
                \oldstylenums{\show@volume}.\oldstylenums{\show@pubnumber} (\oldstylenums{\show@pubyear}) 
                \oldstylenums{\thepage}--\oldstylenums{\pageref{LastPage}}\vspace{-.3em}\\
                \scriptsize\MakeUppercase{\sc\url{https://doi.org/\show@doi}}}}
-\fancyfoot[R]{\footnotesize© The authors\\This is an open access article distributed under the terms of the \href{https://creativecommons.org/licenses/by/4.0/}{\textsc{cc by} \oldstylenums{4.0} license}}
-\fancyfoot[L]{\vspace{-.2em}\\\smallcaps{\thepage}}
+\fancyfoot[R]{\footnotesize© The authors. This is an open access article distributed under the \href{https://creativecommons.org/licenses/by/4.0/}{\textsc{cc by} \oldstylenums{4.0} license}}
+\fancyfoot[L]{\smallcaps{\thepage}}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 }
@@ -190,3 +190,9 @@
 
 \renewcommand{\bibfont}{\small}
 \setlength{\bibhang}{\parindent}
+
+
+
+
+
+

@@ -2,9 +2,7 @@ project:
   title: "ccrquartotest"
 format:
   pdf:
-    documentclass: ccs
-    include-in-header:
-      - preamble.tex
+    documentclass: ccr
     template-partials:
       - partials/title.tex
       - partials/before-body.tex

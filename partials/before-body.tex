@@ -1,7 +1,11 @@
 $if(has-frontmatter)$
 \frontmatter
 $endif$
-$if(abstract)$
-\abstract{$abstract$}
-$endif$
+$if(abstract)$\abstract{$abstract$}$endif$
+$if(keywords)$\keywords{$keywords$}$endif$
 \maketitle
+$if(volume)$\volume{$volume$}$endif$
+$if(pubnumber)$\pubnumber{$pubnumber$}$endif$
+$if(pubyear)$\pubyear{$pubyear$}$endif$
+$if(firstpage)$\firstpage{$firstpage$}$endif$
+$if(doi)$\doi{$doi$}$endif$
