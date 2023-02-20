@@ -15,13 +15,20 @@ volume: 1
 pubnumber: 1
 pubyear: 2019
 firstpage: 1
+bibliography: references.bib
 doi: 10.5117/CCR2019.1.001.VANA
 ---
 
 ## Quarto
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>. 
 
 ```{r}
 1 + 1
 ```
+
+To learn more about this journal, read @atteveldt:2019:RCC.
+
+## References
+
+
