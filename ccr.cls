@@ -1,4 +1,3 @@
-% ccr.cls
 % Template for CCR Articles (very WIP)
 % 2023 Wouter van Atteveldt
 
@@ -11,6 +10,7 @@
 \RequirePackage[papersize={6.53in,9.61in},
   left=1.1in,right=1.1in,top=1in,textheight=7.25in]{geometry}
 
+\usepackage{helvet}
 \usepackage[proportional,scaled=1]{erewhon}
 \usepackage[english]{babel}
 \RequirePackage[protrusion=true,expansion=true,final,babel]{microtype}
@@ -92,7 +92,20 @@
 
 \pagestyle{followingpage}
 \AtBeginDocument{\thispagestyle{firstpage}}
+
+
+
+
 %%%%%%%%%%%%%%%%%% Other markup / styling %%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{etoolbox}
+% Tables
+\AtBeginEnvironment{tabularx}{\footnotesize\sffamily}
+\renewcommand{\arraystretch}{1.3}
+
+\RequirePackage{makecell}
+\renewcommand\theadfont{ \bfseries}
+\renewcommand\theadalign{ll}
+\usepackage[font={footnotesize,sf}]{caption}
 
 % More compact enumerations
 \renewcommand{\@listI}{%
@@ -181,6 +194,30 @@
 }
 \setcounter{secnumdepth}{0}
 
+\renewcommand{\appendixname}{Appendix}
+
+% From: https://tex.stackexchange.com/a/160850
+\def\@seccntformat#1{\@ifundefined{#1@cntformat}%
+   {\csname the#1\endcsname\quad}  % default
+   {\csname #1@cntformat\endcsname}% enable individual control
+}
+\let\oldappendix\appendix %% save current definition of \appendix
+\renewcommand\appendix{%
+    \oldappendix    
+    % Force sections to start on new page
+    \let\oldsection\section
+    \renewcommand{\section}{\clearpage\oldsection}
+    % Renew sections to 'Appendix A <title>'
+    \setcounter{secnumdepth}{1} % start numbering sections again
+    \newcommand{\section@cntformat}{\appendixname~\thesection\quad}
+    % Count figures/tables from A1
+    \setcounter{table}{0}
+    \renewcommand{\thetable}{A\arabic{table}}
+    \setcounter{figure}{0}
+    \renewcommand{\thetable}{A\arabic{table}}
+}
+\makeatother
+
 
 %%%%%%%%%%%%%% Reference handling %%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{csquotes}
@@ -190,9 +227,3 @@
 
 \renewcommand{\bibfont}{\small}
 \setlength{\bibhang}{\parindent}
-
-
-
-
-
-
