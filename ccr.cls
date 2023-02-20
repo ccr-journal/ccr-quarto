@@ -10,11 +10,12 @@
 \RequirePackage[papersize={6.53in,9.61in},
   left=1.1in,right=1.1in,top=1in,textheight=7.25in]{geometry}
 
-\usepackage{helvet}
+%\usepackage[defaultsans,scaled=.95]{cantarell}
+\usepackage[sfdefault,scaled=.9]{noto}
 \usepackage[proportional,scaled=1]{erewhon}
 \usepackage[english]{babel}
 \RequirePackage[protrusion=true,expansion=true,final,babel]{microtype}
-
+\renewcommand{\floatpagefraction}{.7}
 \linespread{1.1}
 
 %%%%%%%%%%%%%% Information from authors %%%%%%%%%%%%%%%%%%%%%
@@ -100,6 +101,7 @@
 \RequirePackage{etoolbox}
 % Tables
 \AtBeginEnvironment{tabularx}{\footnotesize\sffamily}
+\AtBeginEnvironment{tabular}{\footnotesize\sffamily}
 \renewcommand{\arraystretch}{1.3}
 
 \RequirePackage{makecell}
