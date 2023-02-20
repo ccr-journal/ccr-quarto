@@ -17,6 +17,7 @@ pubyear: 2019
 firstpage: 1
 bibliography: references.bib
 doi: 10.5117/CCR2019.1.001.VANA
+shortauthors: One & Two
 ---
 
 ## Quarto

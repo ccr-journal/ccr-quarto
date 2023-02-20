@@ -36,7 +36,7 @@
 \newcommand{\keywords}[1]{\def\@keywords{#1}}
 \newcommand{\show@keywords}{\@keywords}
 
-\def\@shortauthors{(please specify \shortauthors)}
+\def\@shortauthors{(please specify \textbackslash shortauthors)}
 \newcommand{\shortauthors}[1]{\def\@shortauthors{#1}}
 \newcommand{\show@shortauthors}{\@shortauthors}
 
@@ -71,22 +71,18 @@
                \oldstylenums{\show@volume}.\oldstylenums{\show@pubnumber} (\oldstylenums{\show@pubyear}) 
                \oldstylenums{\thepage}--\oldstylenums{\pageref{LastPage}}\vspace{-.3em}\\
                \scriptsize\MakeUppercase{\sc\url{https://doi.org/\show@doi}}}}
-\fancyfoot[R]{\footnotesize© The authors. This is an open access article distributed under the \href{https://creativecommons.org/licenses/by/4.0/}{\textsc{cc by} \oldstylenums{4.0} license}}
-\fancyfoot[L]{\smallcaps{\thepage}}
+\fancyfoot[RE,LO]{\footnotesize© The authors. This is an open access article distributed under the \href{https://creativecommons.org/licenses/by/4.0/}{\textsc{cc by} \oldstylenums{4.0} license}}
+\fancyfoot[LE,RO]{\smallcaps{\thepage}}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 }
 \fancypagestyle{followingpage}{%
 \fancyhf{} % clear all six fields
-
 \fancyhead[RE]{\smallcaps{\show@shorttitle}}
-%\fancyfoot[RE]{\smallcapsl{\show@shortauthors}}
 \fancyhead[LO]{\smallcapsl{Computational Communication Research}}
-\fancyfoot[LO,RE]{\smallcaps{\thepage}}
-%\fancyfoot[LE]{\smallcapsl{\show@shorttitle}}
-\fancyfoot[LE]{\smallcapsl{\show@shortauthors}}
-%\fancyfoot[LE]{\MakeLowercase{\smallcaps{\show@shorttitle}}}
-\fancyfoot[RO]{\smallcaps{vol.  \oldstylenums{\show@volume}, no.  \oldstylenums{\show@pubnumber},  \oldstylenums{\show@pubyear}}}
+\fancyfoot[LE,RO]{\smallcaps{\thepage}}
+\fancyfoot[LO]{\smallcapsl{\show@shortauthors}}
+\fancyfoot[RE]{\smallcaps{vol.  \oldstylenums{\show@volume}, no.  \oldstylenums{\show@pubnumber},  \oldstylenums{\show@pubyear}}}
 \renewcommand{\headrulewidth}{0Pt}
 \renewcommand{\footrulewidth}{0pt}
 }
