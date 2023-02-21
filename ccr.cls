@@ -1,5 +1,7 @@
 % Template for CCR Articles (very WIP)
 % 2023 Wouter van Atteveldt
+% Version 0.02
+% Please see https://github.com/vanatteveldt/ccr-quarto for the latest version of this file
 
 \ProvidesClass{ccr}[2023-02-03 v0.01]
 \NeedsTeXFormat{LaTeX2e}
