@@ -55,7 +55,6 @@
 
 
 \newcommand{\firstpage}[1]{\setcounter{page}{#1}}
-
 %%%%%%%%%%%%%% HEADER / FOOTER %%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{lastpage}
 \RequirePackage{fancyhdr}
@@ -64,13 +63,15 @@
 \newcommand{\smallcapsl}[1]{\MakeLowercase{\smallcaps{#1}}}
 \setlength{\headheight}{24pt}
 
+%\usepackage{showframe} % useful for debugging header / margin
 \fancypagestyle{firstpage}{%
 \fancyhf{} % clear all six fields
-\fancyhead[L]{\includegraphics[height=2em]{aup.png}}
-\fancyhead[R]{\smallcaps{computational communication research 
+\fancyhead[L]{\includegraphics[height=2em]{aup_logo.pdf}}
+\fancyhead[R]{\raisebox{.1em}{\smallcaps{computational communication research 
                \oldstylenums{\show@volume}.\oldstylenums{\show@pubnumber} (\oldstylenums{\show@pubyear}) 
-               \oldstylenums{\thepage}--\oldstylenums{\pageref{LastPage}}\vspace{-.3em}\\
-               \scriptsize\MakeUppercase{\sc\url{https://doi.org/\show@doi}}}}
+               \oldstylenums{\thepage}--\oldstylenums{\pageref{LastPage}}}}%
+               \\%
+               \raisebox{.4em}{\scriptsize\MakeUppercase{\sc\url{https://doi.org/\show@doi}}}}
 \fancyfoot[RE,LO]{\footnotesize© The authors. This is an open access article distributed under the \href{https://creativecommons.org/licenses/by/4.0/}{\textsc{cc by} \oldstylenums{4.0} license}}
 \fancyfoot[LE,RO]{\smallcaps{\thepage}}
 \renewcommand{\headrulewidth}{0pt}
