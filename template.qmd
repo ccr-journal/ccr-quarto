@@ -15,9 +15,12 @@ volume: 1
 pubnumber: 1
 pubyear: 2019
 firstpage: 1
-bibliography: references.bib
+bibliography: bibliography.bib
 doi: 10.5117/CCR2019.1.001.VANA
 shortauthors: One & Two
+format:
+  ccr-pdf:
+    keep-tex: true
 ---
 
 ## Quarto
