@@ -10,6 +10,7 @@ contributes:
         - ccr.lua
     pdf:
       documentclass: ccr
+      pdf-engine: pdflatex
       template-partials:
         - partials/before-body.tex
         - partials/title.tex
