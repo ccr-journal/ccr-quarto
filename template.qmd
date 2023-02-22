@@ -31,6 +31,13 @@ Quarto enables you to weave together content and executable code into a finished
 1 + 1
 ```
 
+You can also use nice mathematics: 
+
+$$
+  \frac{1}{2\pi i}\int_\gamma\! f = \sum_{k=1}^m \\
+  n(\gamma;a_k) \text{Res}(f;a_k)\,.
+$$
+
 To learn more about this journal, read @atteveldt:2019:RCC.
 
 ## References

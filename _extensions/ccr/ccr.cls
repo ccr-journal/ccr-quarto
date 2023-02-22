@@ -12,11 +12,26 @@
 \RequirePackage[papersize={6.53in,9.61in},
   left=1.1in,right=1.1in,top=1in,textheight=7.25in]{geometry}
 
-%\usepackage[defaultsans,scaled=.95]{cantarell}
-\usepackage[sfdefault,scaled=.9]{noto}
-\usepackage[proportional,scaled=1]{erewhon}
-\usepackage[english]{babel}
-\RequirePackage[protrusion=true,expansion=true,final,babel]{microtype}
+\RequirePackage{graphicx}
+
+\RequirePackage[english]{babel}
+\renewcommand*\oldstylenums[1]{\textosf{#1}}
+\RequirePackage{ifxetex}
+\ifxetex
+  \RequirePackage[protrusion=true,final,babel]{microtype}
+  \RequirePackage{fontspec}
+  \setmainfont{erewhon}  
+  \setsansfont{Noto Sans}
+  \usepackage{unicode-math}
+  \defaultfontfeatures{ Scale=MatchLowercase, Ligatures=TeX }
+  \setmathfont{TeX Gyre Termes Math}
+
+\else
+  \RequirePackage[protrusion=true,expansion=true,final,babel]{microtype}
+  \RequirePackage[sfdefault,scaled=.9]{noto}
+  \RequirePackage[proportional,scaled=1]{erewhon}
+  \RequirePackage[erewhon,vvarbb,bigdelims]{newtxmath}
+\fi
 \renewcommand{\floatpagefraction}{.7}
 \linespread{1.1}
 
@@ -60,7 +75,7 @@
 %%%%%%%%%%%%%% HEADER / FOOTER %%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{lastpage}
 \RequirePackage{fancyhdr}
-\RequirePackage{graphicx}
+
 \newcommand{\smallcaps}[1]{\textsc{\footnotesize #1}}
 \newcommand{\smallcapsl}[1]{\MakeLowercase{\smallcaps{#1}}}
 \setlength{\headheight}{24pt}

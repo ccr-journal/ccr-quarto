@@ -1,5 +1,5 @@
 title: Quarto template for Computational Communication Science
-author:  Wouter van Atteveldt
+author: Wouter van Atteveldt
 version: 0.0.1
 quarto-required: ">=1.2.0"
 contributes:
@@ -10,6 +10,7 @@ contributes:
         - ccr.lua
     pdf:
       documentclass: ccr
+      template: ccrtemplate.tex
       template-partials:
         - partials/before-body.tex
         - partials/title.tex
