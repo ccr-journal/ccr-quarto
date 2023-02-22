@@ -1,5 +1,5 @@
 % Template for CCR Articles (very WIP)
-% 2023 Wouter van Atteveldt
+% 2023 Wouter van Atteveldt, Damian Trilling, Chung-hong Chan
 % Version 0.02
 % Please see https://github.com/vanatteveldt/ccr-quarto for the latest version of this file
 
