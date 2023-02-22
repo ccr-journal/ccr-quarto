@@ -89,7 +89,7 @@
                \oldstylenums{\thepage}--\oldstylenums{\pageref{LastPage}}}}%
                \\%
                \raisebox{.4em}{\scriptsize\MakeUppercase{\sc\url{https://doi.org/\show@doi}}}}
-\fancyfoot[RE,LO]{\footnotesize© The authors. This is an open access article distributed under the \href{https://creativecommons.org/licenses/by/4.0/}{\textsc{cc by} \oldstylenums{4.0} license}}
+\fancyfoot[RE,LO]{\footnotesize© The author(s). This is an open access article distributed under the \href{https://creativecommons.org/licenses/by/4.0/}{\textsc{cc by} \oldstylenums{4.0} license}}
 \fancyfoot[LE,RO]{\smallcaps{\thepage}}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
