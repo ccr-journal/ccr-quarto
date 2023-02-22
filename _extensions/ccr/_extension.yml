@@ -16,5 +16,6 @@ contributes:
         - partials/title.tex
       format-resources:
         - ccr.cls
+        - aup_logo.pdf
     html:
       css: styles.css
