@@ -21,6 +21,7 @@ shortauthors: One & Two
 format:
   ccr-pdf:
     keep-tex: true
+pdf-engine: pdflatex
 ---
 
 ## Quarto
