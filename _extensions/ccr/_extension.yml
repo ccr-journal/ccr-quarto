@@ -18,4 +18,3 @@ contributes:
         - ccr.cls
     html:
       css: styles.css
-  pdf-engine: pdflatex
