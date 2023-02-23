@@ -16,6 +16,6 @@ contributes:
         - partials/title.tex
       format-resources:
         - ccr.cls
-      engine: pdflatex
+    pdf-engine: pdflatex
     html:
       css: styles.css
