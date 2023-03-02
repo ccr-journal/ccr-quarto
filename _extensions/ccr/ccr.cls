@@ -1,10 +1,16 @@
 % Template for CCR Articles (very WIP)
 % 2023 Wouter van Atteveldt, Damian Trilling, Chung-hong Chan
-% Version 0.02
+% Version 0.03
 % Please see https://github.com/vanatteveldt/ccr-quarto for the latest version of this file
 
 \ProvidesClass{ccr}[2023-02-03 v0.01]
 \NeedsTeXFormat{LaTeX2e}
+
+\newif\if@review
+\@reviewfalse
+
+\DeclareOption{review}{\@reviewtrue}
+\ProcessOptions\relax
 
 \LoadClass[twoside]{article}
 
@@ -66,12 +72,13 @@
 \def\@pubyear{20xx}
 \newcommand{\pubyear}[1]{\def\@pubyear{#1}}
 \newcommand{\show@pubyear}{\@pubyear}
-\def\@doi{10.5117/ccr20xx.xxx.xxxx}
+\def\@doi{}
 \newcommand{\doi}[1]{\def\@doi{#1}}
 \newcommand{\show@doi}{\@doi}
 
 
 \newcommand{\firstpage}[1]{\setcounter{page}{#1}}
+
 %%%%%%%%%%%%%% HEADER / FOOTER %%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{lastpage}
 \RequirePackage{fancyhdr}
@@ -88,7 +95,9 @@
                \oldstylenums{\show@volume}.\oldstylenums{\show@pubnumber} (\oldstylenums{\show@pubyear}) 
                \oldstylenums{\thepage}--\oldstylenums{\pageref{LastPage}}}}%
                \\%
-               \raisebox{.4em}{\scriptsize\MakeUppercase{\sc\url{https://doi.org/\show@doi}}}}
+               \ifdefempty{\@doi}{}{
+               \raisebox{.4em}{\scriptsize\MakeUppercase{\sc\url{https://doi.org/\show@doi}}}
+               }}
 \fancyfoot[RE,LO]{\footnotesize© The author(s). This is an open access article distributed under the \href{https://creativecommons.org/licenses/by/4.0/}{\textsc{cc by} \oldstylenums{4.0} license}}
 \fancyfoot[LE,RO]{\smallcaps{\thepage}}
 \renewcommand{\headrulewidth}{0pt}
@@ -108,8 +117,16 @@
 \pagestyle{followingpage}
 \AtBeginDocument{\thispagestyle{firstpage}}
 
+%%%%%%%%%%%%%%%%%% Draft / review %%%%%%%%%%%%%%%%%%%%%%5
 
-
+\RequirePackage[pagewise]{lineno}
+\if@review
+    \RequirePackage{draftwatermark}
+    \SetWatermarkText{\sffamily{For peer review}}
+    \SetWatermarkScale{.5}
+    \DraftwatermarkOptions{color={[RGB]{255,215,215}}}
+    \setlength\linenumbersep{1cm}
+\fi
 
 %%%%%%%%%%%%%%%%%% Other markup / styling %%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{etoolbox}
@@ -200,6 +217,10 @@
 \\\\
 \textbf{Keywords:} \show@keywords
 }
+
+\if@review
+\linenumbers
+\fi
 }
 
 %%%%%%%%%%%%%% Sections %%%%%%%%%%%%%%%%%%%%%
