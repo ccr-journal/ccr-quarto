@@ -212,11 +212,11 @@
 \looptwo\listauthors\listaffiliations
 
 \vspace{1em}
-\parbox{\textwidth-\parindent-\parindent}{\small
+\begin{quote}\small
 \textbf{Abstract}\\\show@abstract
 \\\\
 \textbf{Keywords:} \show@keywords
-}
+\end{quote}
 
 \if@review
 \linenumbers
