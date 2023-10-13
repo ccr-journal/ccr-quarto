@@ -22,6 +22,9 @@ format:
   ccr-pdf:
     keep-tex: true
 pdf-engine: pdflatex
+# uncomment to get version for submission (anonymous and with watermark)
+# classoption:
+#   - review
 ---
 
 ## Quarto
