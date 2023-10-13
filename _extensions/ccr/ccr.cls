@@ -59,21 +59,42 @@
 \newcommand{\keywords}[1]{\def\@keywords{#1}}
 \newcommand{\show@keywords}{\@keywords}
 
-\def\@shortauthors{(please specify \textbackslash shortauthors)}
-\newcommand{\shortauthors}[1]{\def\@shortauthors{#1}}
-\newcommand{\show@shortauthors}{\@shortauthors}
+\if@review
+  \def\@shortauthors{Anonymous}
+  % Does nothing in review mode, but is needed elsewhere
+  \newcommand{\shortauthors}[1]{} 
+  
+  \def\@volume{}
+  \newcommand{\volume}[1]{}
+  
+  \def\@pubnumber{}
+  \newcommand{\pubnumber}[1]{}
+  
+  \def\@pubyear{}
+  \newcommand{\pubyear}[1]{}
+  
+  \def\@doi{}
+  \newcommand{\doi}[1]{}
+\else
+  \def\@shortauthors{(please specify \textbackslash shortauthors)}
+  \newcommand{\shortauthors}[1]{\def\@shortauthors{#1}}
+  
+  \def\@volume{X}
+  \newcommand{\volume}[1]{\def\@volume{#1}}
+  
+  \def\@pubnumber{Y}
+  \newcommand{\pubnumber}[1]{\def\@pubnumber{#1}}
 
-\def\@volume{X}
-\newcommand{\volume}[1]{\def\@volume{#1}}
+  \def\@pubyear{20xx}
+  \newcommand{\pubyear}[1]{\def\@pubyear{#1}}
+  
+  \def\@doi{}
+  \newcommand{\doi}[1]{\def\@doi{#1}}
+\fi
+\newcommand{\show@shortauthors}{\@shortauthors}
 \newcommand{\show@volume}{\@volume}
-\def\@pubnumber{Y}
-\newcommand{\pubnumber}[1]{\def\@pubnumber{#1}}
 \newcommand{\show@pubnumber}{\@pubnumber}
-\def\@pubyear{20xx}
-\newcommand{\pubyear}[1]{\def\@pubyear{#1}}
 \newcommand{\show@pubyear}{\@pubyear}
-\def\@doi{}
-\newcommand{\doi}[1]{\def\@doi{#1}}
 \newcommand{\show@doi}{\@doi}
 
 
@@ -90,14 +111,21 @@
 %\usepackage{showframe} % useful for debugging header / margin
 \fancypagestyle{firstpage}{%
 \fancyhf{} % clear all six fields
-\fancyhead[L]{\includegraphics[height=2em]{aup_logo.pdf}}
-\fancyhead[R]{\raisebox{.1em}{\smallcaps{computational communication research 
-               \oldstylenums{\show@volume}.\oldstylenums{\show@pubnumber} (\oldstylenums{\show@pubyear}) 
-               \oldstylenums{\thepage}--\oldstylenums{\pageref{LastPage}}}}%
-               \\%
-               \ifdefempty{\@doi}{}{
-               \raisebox{.4em}{\scriptsize\MakeUppercase{\sc\url{https://doi.org/\show@doi}}}
-               }}
+\if@review
+\else
+  \fancyhead[L]{\includegraphics[height=2em]{aup_logo.pdf}}
+\fi
+\if@review
+  \fancyhead[R]{\raisebox{.1em}{\smallcaps{computational communication research---manuscript}}}
+\else
+  \fancyhead[R]{\raisebox{.1em}{\smallcaps{computational communication research 
+                 \oldstylenums{\show@volume}.\oldstylenums{\show@pubnumber} (\oldstylenums{\show@pubyear}) 
+                 \oldstylenums{\thepage}--\oldstylenums{\pageref{LastPage}}}}%
+                 \\%
+                 \ifdefempty{\@doi}{}{
+                 \raisebox{.4em}{\scriptsize\MakeUppercase{\sc\url{https://doi.org/\show@doi}}}
+                 }}
+\fi
 \fancyfoot[RE,LO]{\footnotesize© The author(s). This is an open access article distributed under the \href{https://creativecommons.org/licenses/by/4.0/}{\textsc{cc by} \oldstylenums{4.0} license}}
 \fancyfoot[LE,RO]{\smallcaps{\thepage}}
 \renewcommand{\headrulewidth}{0pt}
@@ -109,7 +137,12 @@
 \fancyhead[LO]{\smallcapsl{Computational Communication Research}}
 \fancyfoot[LE,RO]{\smallcaps{\thepage}}
 \fancyfoot[LO]{\smallcapsl{\show@shortauthors}}
-\fancyfoot[RE]{\smallcaps{vol.  \oldstylenums{\show@volume}, no.  \oldstylenums{\show@pubnumber},  \oldstylenums{\show@pubyear}}}
+\if@review
+  \fancyfoot[RE]{\smallcaps{unpblished manuscript}}
+\else
+  \fancyfoot[RE]{\smallcaps{vol. \oldstylenums{\show@volume}, no. \oldstylenums{\show@pubnumber}, \oldstylenums{\show@pubyear}}}
+\fi
+
 \renewcommand{\headrulewidth}{0Pt}
 \renewcommand{\footrulewidth}{0pt}
 }
@@ -209,7 +242,10 @@
 \noindent\textit{##2}
 \vspace{1em}\par
 }
-\looptwo\listauthors\listaffiliations
+\if@review
+\else
+  \looptwo\listauthors\listaffiliations
+\fi
 
 \vspace{1em}
 \begin{quote}\small
