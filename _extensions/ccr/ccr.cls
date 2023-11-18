@@ -1,5 +1,5 @@
 % Template for CCR Articles (very WIP)
-% 2023 Wouter van Atteveldt, Damian Trilling, Chung-hong Chan
+% 2023 Wouter van Atteveldt, Damian Trilling, Chung-hong Chan, Johannes B. Gruber
 % Version 0.03
 % Please see https://github.com/vanatteveldt/ccr-quarto for the latest version of this file
 
@@ -138,7 +138,7 @@
 \fancyfoot[LE,RO]{\smallcaps{\thepage}}
 \fancyfoot[LO]{\smallcapsl{\show@shortauthors}}
 \if@review
-  \fancyfoot[RE]{\smallcaps{unpblished manuscript}}
+  \fancyfoot[RE]{\smallcaps{unpublished manuscript}}
 \else
   \fancyfoot[RE]{\smallcaps{vol. \oldstylenums{\show@volume}, no. \oldstylenums{\show@pubnumber}, \oldstylenums{\show@pubyear}}}
 \fi
