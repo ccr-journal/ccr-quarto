@@ -295,12 +295,13 @@ $endif$
 $if(verbatim-in-note)$
 \VerbatimFootnotes % allow verbatim text in footnotes
 $endif$
+\makeatletter
 \hypersetup{
 $if(title-meta)$
   pdftitle={$title-meta$},
 $endif$
 $if(author-meta)$
-  pdfauthor={$author-meta$},
+  pdfauthor={\if@review Anonymous\else $author-meta$\fi},
 $endif$
 $if(lang)$
   pdflang={$lang$},
@@ -324,6 +325,7 @@ $else$
 $endif$
 $endif$
   pdfcreator={LaTeX via pandoc}}
+\makeatother
 
 $title.tex()$
 
