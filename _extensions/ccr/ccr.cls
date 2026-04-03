@@ -12,6 +12,7 @@
 \DeclareOption{review}{\@reviewtrue}
 \ProcessOptions\relax
 
+\pdfminorversion=7
 \LoadClass[twoside]{article}
 
 %%%%%%%%%%%%% OVRERALL PAGE LAYOUT %%%%%%%%%%%%%%%%%%%
@@ -228,7 +229,6 @@
 
 %%%%%%%%%%%%%% Title page %%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{calc}
-\RequirePackage{pstricks}
 \RequirePackage{hyphenat}
 
 \renewcommand{\maketitle}{%
