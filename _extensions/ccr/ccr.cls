@@ -31,7 +31,7 @@
   \setsansfont{Noto Sans}
   \usepackage{unicode-math}
   \defaultfontfeatures{ Scale=MatchLowercase, Ligatures=TeX }
-  \setmathfont{TeX Gyre Termes Math}
+  \setmathfont{Erewhon-Math.otf}
 
 \else
   \RequirePackage[protrusion=true,expansion=true,final,babel]{microtype}
