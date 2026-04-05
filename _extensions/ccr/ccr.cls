@@ -12,7 +12,10 @@
 \DeclareOption{review}{\@reviewtrue}
 \ProcessOptions\relax
 
-\pdfminorversion=7
+\RequirePackage{ifxetex}
+\ifxetex\else
+  \pdfminorversion=7
+\fi
 \LoadClass[twoside]{article}
 
 %%%%%%%%%%%%% OVRERALL PAGE LAYOUT %%%%%%%%%%%%%%%%%%%
