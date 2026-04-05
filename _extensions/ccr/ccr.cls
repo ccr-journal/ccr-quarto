@@ -26,7 +26,6 @@
 
 \RequirePackage[english]{babel}
 \renewcommand*\oldstylenums[1]{\textosf{#1}}
-\RequirePackage{ifxetex}
 \ifxetex
   \RequirePackage[protrusion=true,final,babel]{microtype}
   \RequirePackage{fontspec}
