@@ -231,12 +231,17 @@
 \RequirePackage{calc}
 \RequirePackage{hyphenat}
 
+% XeTeX lacks microtype font expansion, so enable \sloppy globally to
+% prevent overfull lines.  For pdfTeX, expansion=true in microtype
+% handles this, so we leave the default (\fussy) in place.
+\ifxetex
+  \AtBeginDocument{\sloppy}
+\fi
+
 \renewcommand{\maketitle}{%
-\sloppy
 \noindent{\fontsize{14}{13.5}\fontseries{b}\selectfont\raggedright\nohyphens{\@title}}
 \vspace{.5in}
 
-\fussy
 \if@review
 \else
   % Step 1: Scan affiliations, assign a unique number to each distinct one
