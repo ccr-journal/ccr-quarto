@@ -1,1 +1,7 @@
 /.quarto/
+
+# Render artifacts
+/template.pdf
+/template.tex
+/aup_logo.pdf
+/ccr.cls
