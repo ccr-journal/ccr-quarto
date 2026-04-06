@@ -20,6 +20,16 @@ quarto render ccrt.qmd
 quarto render ccrt.qmd --to=ccr-html
 ```
 
+## PDF Engine
+
+This template defaults to `pdflatex`. If you need better support for Unicode characters (e.g. CJK scripts, Arabic, Hebrew), you can switch to `xelatex` by adding the following to your document YAML:
+
+```yaml
+format:
+  ccr-pdf:
+    pdf-engine: xelatex
+```
+
 ## Installing the extension
 
 ```sh

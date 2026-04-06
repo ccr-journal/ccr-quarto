@@ -9,6 +9,7 @@ contributes:
       filters:
         - ccr.lua
     pdf:
+      pdf-engine: pdflatex
       documentclass: ccr
       template: ccrtemplate.tex
       template-partials:
