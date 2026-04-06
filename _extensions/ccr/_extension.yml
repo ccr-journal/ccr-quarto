@@ -6,6 +6,7 @@ contributes:
   formats:
     common:
       toc: false
+      csl: apa.csl
       filters:
         - ccr.lua
     pdf:
