@@ -1,0 +1,65 @@
+name: Sync ccr.cls from ccr-latex
+
+on:
+  schedule:
+    - cron: '0 9 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      UPSTREAM_URL: https://raw.githubusercontent.com/ccr-journal/ccr-latex/main/ccr.cls
+      LOCAL_PATH: _extensions/ccr/ccr.cls
+      SYNC_BRANCH: sync/ccr-cls
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch upstream ccr.cls
+        run: curl -fsSL "$UPSTREAM_URL" -o /tmp/upstream-ccr.cls
+
+      - name: Check for differences
+        id: diff
+        run: |
+          if diff -q /tmp/upstream-ccr.cls "$LOCAL_PATH" >/dev/null; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes; ccr.cls is already in sync."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Upstream ccr.cls differs from local copy. Diff:"
+            diff -u "$LOCAL_PATH" /tmp/upstream-ccr.cls || true
+          fi
+
+      - name: Configure git
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Create or update sync branch
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git checkout -B "$SYNC_BRANCH"
+          cp /tmp/upstream-ccr.cls "$LOCAL_PATH"
+          git add "$LOCAL_PATH"
+          git commit -m "Sync ccr.cls from ccr-journal/ccr-latex"
+          git push --force origin "$SYNC_BRANCH"
+
+      - name: Open pull request if one doesn't exist
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh pr list --head "$SYNC_BRANCH" --state open --json number --jq '.[0].number' | grep -q .; then
+            echo "Open PR already exists for $SYNC_BRANCH; force-push updated it in place."
+          else
+            gh pr create \
+              --base main \
+              --head "$SYNC_BRANCH" \
+              --title "Sync ccr.cls from ccr-latex" \
+              --body "Automated sync of \`_extensions/ccr/ccr.cls\` from upstream [ccr-journal/ccr-latex](https://github.com/ccr-journal/ccr-latex). Review the diff and merge if appropriate. If new class macros require changes to the Quarto partials under \`_extensions/ccr/partials/\`, amend this PR before merging."
+          fi
