@@ -246,8 +246,11 @@
 
 \if@review
 \else
-  % Step 1: Scan affiliations, assign a unique number to each distinct one
+  % Step 1: Scan affiliations, assign a unique letter to each distinct one.
+  % Affiliation superscripts use alphabetic markers (a, b, c, ...) so they
+  % don't collide visually with numeric footnote marks.
   \newcounter{uniqaffil}%
+  \renewcommand*{\theuniqaffil}{\alph{uniqaffil}}%
   \renewcommand*{\do}[1]{%
     \@ifundefined{ccr@affil@\detokenize{##1}}{%
       \stepcounter{uniqaffil}%
@@ -256,13 +259,14 @@
     }{}%
   }%
   \dolistloop{\listaffiliations}%
-  \edef\ccr@totalaffils{\theuniqaffil}%
+  \edef\ccr@totalaffils{\number\value{uniqaffil}}%
   %
-  % Step 2: Print authors with looked-up superscript numbers
+  % Step 2: Print authors with looked-up superscript letters (italicised
+  % inline so they read as affiliation markers rather than stray letters)
   \noindent
   \def\@authsep{}%
   \renewcommand*{\dotwo}[2]{%
-    \@authsep##1\textsuperscript{\csname ccr@affil@\detokenize{##2}\endcsname}%
+    \@authsep##1\textsuperscript{\textit{\csname ccr@affil@\detokenize{##2}\endcsname}}%
     \def\@authsep{, }%
   }%
   \looptwo\listauthors\listaffiliations
@@ -273,6 +277,7 @@
   % renders doesn't spread the affiliation lines apart)
   {\small\itshape\parskip=0pt\relax
   \newcounter{affilprint}%
+  \renewcommand*{\theaffilprint}{\alph{affilprint}}%
   \@whilenum\value{affilprint}<\ccr@totalaffils\do{%
     \stepcounter{affilprint}%
     \noindent\textsuperscript{\theaffilprint}\,\csname ccr@affiltext@\theaffilprint\endcsname\par
