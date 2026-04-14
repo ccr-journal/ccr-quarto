@@ -1,23 +1,23 @@
 ---
-title: "My first article"
+title: "Title of your article"
 author:
-- name: Author One
-  affiliation: 
-  - University of Somewhere
-  - Somewhere Else
-- name: Author Two
-  affiliation: University of Nowhere
+  - name: First Author
+    affiliation: Department of Communication Science, Some University, Somewhere
+  - name: Second Author
+    affiliation: Department of Communication Science, Some University, Somewhere
+  - name: Third Author
+    affiliation: Department of Communication Science, Another University, Somewhere Else
 abstract: |
-  This is the abstract.
-  Hence, it is not concrete.
-keywords: bla, blo
-volume: 1
-pubnumber: 1
-pubyear: 2019
+  A brief abstract that describes the study and main findings.
+  In this template document, we will mainly give some examples of using Quarto.
+keywords: some, useful, keywords
+volume: "?"
+pubnumber: "?"
+pubyear: "20??"
 firstpage: 1
 bibliography: bibliography.bib
-doi: 10.5117/CCR2019.1.001.VANA
-shortauthors: One & Two
+doi: "10.5117/CCR????"
+shortauthors: First et al.
 format:
   ccr-pdf:
     keep-tex: true

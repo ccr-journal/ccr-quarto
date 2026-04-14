@@ -269,7 +269,9 @@
   \par\vspace{0.5em}
   %
   % Step 3: Print each unique affiliation once
-  {\small\itshape
+  % (parskip is zeroed locally so Pandoc-injected parskip from Quarto
+  % renders doesn't spread the affiliation lines apart)
+  {\small\itshape\parskip=0pt\relax
   \newcounter{affilprint}%
   \@whilenum\value{affilprint}<\ccr@totalaffils\do{%
     \stepcounter{affilprint}%
