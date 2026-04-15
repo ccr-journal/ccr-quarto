@@ -280,7 +280,11 @@
   \renewcommand*{\theaffilprint}{\alph{affilprint}}%
   \@whilenum\value{affilprint}<\ccr@totalaffils\do{%
     \stepcounter{affilprint}%
-    \noindent\textsuperscript{\theaffilprint}\,\csname ccr@affiltext@\theaffilprint\endcsname\par
+    % Measure the superscript+thinspace width so wrapped affiliation lines
+    % hang under the start of the text rather than under the marker.
+    \settowidth{\@tempdima}{\textsuperscript{\theaffilprint}\,}%
+    \noindent\hangindent=\@tempdima\hangafter=1
+    \textsuperscript{\theaffilprint}\,\csname ccr@affiltext@\theaffilprint\endcsname\par
   }}%
 \fi
 
