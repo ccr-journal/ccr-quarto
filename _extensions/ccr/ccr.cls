@@ -155,8 +155,8 @@
 
 %%%%%%%%%%%%%%%%%% Draft / review %%%%%%%%%%%%%%%%%%%%%%5
 
-\RequirePackage[pagewise]{lineno}
 \if@review
+    \RequirePackage[pagewise]{lineno}
     \RequirePackage{draftwatermark}
     \SetWatermarkText{\sffamily{For peer review}}
     \SetWatermarkScale{.5}
