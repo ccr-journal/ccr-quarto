@@ -1,6 +1,6 @@
 # ccr-quarto
 
-Quarto template for [Computational Communication Research](https://computationalcommunication.org/ccr) (CCR). Please see the [Author Guide](author_guide_quarto.md) for detailed instruciton on how to use the template to create articles that can be published in CCR.
+Quarto template for [Computational Communication Research](https://computationalcommunication.org/ccr) (CCR). Please see the [Author Guide](author_guide_qmd.md) for detailed instruciton on how to use the template to create articles that can be published in CCR.
 
 ## Creating a New Article
 
