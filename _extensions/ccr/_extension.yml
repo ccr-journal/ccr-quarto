@@ -12,6 +12,8 @@ contributes:
     pdf:
       pdf-engine: pdflatex
       documentclass: ccr
+      classoption:
+        - nobib
       template: ccrtemplate.tex
       template-partials:
         - partials/before-body.tex
