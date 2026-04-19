@@ -1,9 +1,9 @@
 % Template for CCR Articles (very WIP)
 % 2023 Wouter van Atteveldt, Damian Trilling, Chung-hong Chan, Johannes B. Gruber
-% Version 0.05
+% Version 0.06
 % Please see https://github.com/ccr-journal/ccr-quarto for the latest version of this file
 
-\ProvidesClass{ccr}[2023-02-03 v0.01]
+\ProvidesClass{ccr}[2026-04-18 v0.06]
 \NeedsTeXFormat{LaTeX2e}
 
 \newif\if@review
@@ -340,8 +340,6 @@
     \setcounter{figure}{0}
     \renewcommand{\thetable}{A\arabic{table}}
 }
-\makeatother
-
 
 %%%%%%%%%%%%%% Reference handling %%%%%%%%%%%%%%%%%%%%%
 % When used via Quarto (which handles citations with citeproc), pass the
