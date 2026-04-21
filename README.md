@@ -52,9 +52,7 @@ format:
 
 ## LaTeX authors
 
-A parallel LaTeX template lives at [ccr-journal/ccr-latex](https://github.com/ccr-journal/ccr-latex) and uses the same `ccr.cls`. The two templates render identical title blocks; use whichever fits your workflow.
-
-`ccr.cls` itself is maintained in the LaTeX repository. A GitHub Actions workflow in this repo automatically mirrors changes by opening a pull request whenever the class is updated upstream, keeping the two templates in sync.
+A parallel LaTeX template lives at [ccr-journal/ccr-latex](https://github.com/ccr-journal/ccr-latex) and uses the same `ccr.cls`. 
 
 ## Reporting issues
 
