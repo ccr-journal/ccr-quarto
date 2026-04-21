@@ -1,5 +1,7 @@
 ---
 title: "Title of your article"
+# If two or more authors share the same affiliation, repeat the string —
+# the class deduplicates them and assigns a single alphabetic marker.
 author:
   - name: First Author
     affiliation: Department of Communication Science, Some University, Somewhere

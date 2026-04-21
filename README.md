@@ -27,8 +27,6 @@ quarto render template.qmd --to ccr-html
 
 Edit `template.qmd` (or rename it). The YAML front matter defines your title, authors, affiliations, abstract, keywords, and bibliography. The body is standard Quarto markdown with support for executable R and Python code chunks.
 
-**Affiliations deduplicate automatically.** If two or more authors share the same affiliation string, the class collapses duplicates and assigns a single italic alphabetic marker (a, b, c, ...) in the title block.
-
 ### Anonymised peer review
 
 CCR requires [anonymised manuscripts for peer review](https://journal.computationalcommunication.org/about/submissions). To produce an anonymised build — with author/affiliation info suppressed, line numbers enabled, and a draft watermark — add the `review` class option to your document YAML:
