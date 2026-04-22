@@ -1,9 +1,9 @@
 % Template for CCR Articles (very WIP)
 % 2023 Wouter van Atteveldt, Damian Trilling, Chung-hong Chan, Johannes B. Gruber
-% Version 0.06
+% Version 0.07
 % Please see https://github.com/ccr-journal/ccr-quarto for the latest version of this file
 
-\ProvidesClass{ccr}[2026-04-18 v0.06]
+\ProvidesClass{ccr}[2026-04-21 v0.07]
 \NeedsTeXFormat{LaTeX2e}
 
 \newif\if@review
@@ -64,6 +64,21 @@
 \def\@keywords{(specify keywords using \textbackslash keywords in preamble)}
 \newcommand{\keywords}[1]{\def\@keywords{#1}}
 \newcommand{\show@keywords}{\@keywords}
+
+% Acknowledgements: renders an unnumbered Acknowledgements section in the PDF,
+% suppressed in review mode to avoid de-anonymization. In LaTeXML the binding
+% in ccr.cls.ltxml overrides this to emit <ltx:acknowledgements>, which lands
+% in JATS <back><ack>.
+\newcommand{\acknowledgements}[1]{%
+  \if@review\else
+    \section*{Acknowledgements}#1%
+  \fi
+}
+
+% Supplementary material: pass-through stub so authors can already tag the
+% section semantically; a future LaTeXML binding will route this to JATS
+% <sec sec-type="supplementary-material"> (see issue #3).
+\newcommand{\supplementarymaterial}[1]{#1}
 
 \if@review
   \def\@shortauthors{Anonymous}

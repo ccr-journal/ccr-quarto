@@ -281,6 +281,39 @@ Footnotes are collected into the back matter of the JATS output.
 
 ---
 
+## Acknowledgements
+
+Add acknowledgements via the `acknowledgements` YAML key:
+
+```yaml
+acknowledgements: |
+  This research was supported by grant XYZ from the ACME Foundation.
+```
+
+For the PDF build, the CCR Lua filter inserts an `\acknowledgements{...}` block automatically before the References heading. For the XML output, the post-processor injects `<back><ack><p>...</p></ack>`. You do not need (and should not add) a manual `# Acknowledgements` heading in the body.
+
+---
+
+## Supplementary material
+
+Tag a caption + link as supplementary material with a Pandoc span carrying the `.ccr-suppmat` class. The span renders transparently in the PDF (no visual change) and additionally produces a `<supplementary-material>` entry in the XML `<article-meta>`.
+
+Typical usage is inside a footnote so the URL shows up for readers while also being tagged as supplementary material in the XML:
+
+```markdown
+We preregistered the study before data collection.^[[All materials can be found at: <https://doi.org/10.17605/OSF.IO/TQRJ3>]{.ccr-suppmat}]
+```
+
+The span can also be used outside a footnote; its content renders in place:
+
+```markdown
+[Data and analysis code: <https://doi.org/10.17605/OSF.IO/...>]{.ccr-suppmat}
+```
+
+The argument should generally contain exactly one `<url>` link. Use multiple `.ccr-suppmat` spans if there are multiple links (potentially within the same footnote).
+
+---
+
 ## Appendices
 
 Mark appendix sections with the `.appendix` class:
