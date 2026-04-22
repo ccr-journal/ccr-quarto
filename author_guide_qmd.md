@@ -24,18 +24,13 @@ author:
 abstract: |
   Your abstract text here.
 keywords: keyword1, keyword2, keyword3
-volume: 8
-pubnumber: 2
-pubyear: 2026
-firstpage: 1
 bibliography: bibliography.bib
-doi: 10.5117/CCR2026.2.11.AUTHOR
 execute:
   echo: false
 ---
 ```
 
-The converter derives the output filename and article metadata from the `doi` field. The `volume`, `pubnumber`, `pubyear`, and `firstpage` fields are provided by the journal.
+Journal metadata (DOI, volume, issue, dates, …) is optional — see [Journal metadata](#journal-metadata) below.
 
 ---
 
@@ -49,13 +44,10 @@ The converter derives the output filename and article metadata from the `doi` fi
 | `author` | List of authors with `name` and `affiliation` | see below |
 | `abstract` | Abstract text (use `\|` for multi-line) | |
 | `keywords` | Comma-separated keyword list | `Bias, Gender, LLM` |
-| `doi` | Full DOI (provided by the journal) | `10.5117/CCR2026.2.11.AUTHOR` |
-| `volume` | Volume number | `8` |
-| `pubnumber` | Issue number | `2` |
-| `pubyear` | Publication year | `2026` |
-| `firstpage` | First page number | `1` |
 | `bibliography` | Path to `.bib` file | `bibliography.bib` |
 | `format` | Optional; the pipeline forces `jats_publishing` | |
+
+Journal metadata (DOI, volume, issue, dates, …) is described in [Journal metadata](#journal-metadata) below.
 
 ### Authors and affiliations
 
@@ -79,6 +71,27 @@ Mark the corresponding author using an inline footnote on the author name:
 - name: Jane Doe^[**Corresponding author**. University of Example, Country, jane@example.edu.]
   affiliation: Department of Communication, University of Example, Country
 ```
+
+---
+
+## Journal metadata
+
+The `ccr` Quarto extension recognises a handful of journal-metadata fields in the YAML front matter. Their values appear in the first-page header/footer of the PDF and are carried into the JATS XML:
+
+| Field | Description | Example |
+|---|---|---|
+| `doi` | Article DOI | `10.5117/CCR2026.1.2.SMITH` |
+| `volume` | Journal volume | `6` |
+| `pubnumber` | Issue number | `2` |
+| `pubyear` | Year of publication | `2026` |
+| `firstpage` | Starting page in the journal | `125` |
+| `date-received` | Manuscript submission date, ISO 8601 | `2025-05-28` |
+| `date-accepted` | Acceptance date | `2026-01-14` |
+| `date-published` | Publication date | `2026-02-16` |
+
+**Authors normally do not need to set these manually.** The journal fills them in during copyediting from the OJS submission record. If you leave them out, the PDF renders with placeholder values for volume/issue/year/DOI, and the `Manuscript received …, accepted …, published …` footer line is simply omitted. Nothing breaks — the final, copyedited version will have the real values.
+
+If you render locally and want a realistic-looking preview, you can set any or all of them yourself.
 
 ---
 
@@ -394,7 +407,7 @@ JATS-specific content here.
 
 ## Checklist before submission
 
-- [ ] YAML front matter includes all required fields (`doi`, `volume`, `pubnumber`, `pubyear`, `firstpage`)
+- [ ] YAML front matter includes `title`, `author`, `abstract`, `keywords`, and `bibliography`
 - [ ] No `format:` key that would conflict (the pipeline forces `jats_publishing`)
 - [ ] `execute: echo: false` is set (unless code display is intentional)
 - [ ] No `kable_styling()` or other HTML-producing kableExtra functions outside of format guards

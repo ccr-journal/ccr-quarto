@@ -1,9 +1,9 @@
 % Template for CCR Articles (very WIP)
 % 2023 Wouter van Atteveldt, Damian Trilling, Chung-hong Chan, Johannes B. Gruber
-% Version 0.07
+% Version 0.08
 % Please see https://github.com/ccr-journal/ccr-quarto for the latest version of this file
 
-\ProvidesClass{ccr}[2026-04-21 v0.07]
+\ProvidesClass{ccr}[2026-04-22 v0.08]
 \NeedsTeXFormat{LaTeX2e}
 
 \newif\if@review
@@ -96,6 +96,15 @@
   
   \def\@doi{}
   \newcommand{\doi}[1]{}
+
+  \def\@datereceived{}
+  \newcommand{\datereceived}[1]{}
+
+  \def\@dateaccepted{}
+  \newcommand{\dateaccepted}[1]{}
+
+  \def\@datepublished{}
+  \newcommand{\datepublished}[1]{}
 \else
   \def\@shortauthors{(please specify \textbackslash shortauthors)}
   \newcommand{\shortauthors}[1]{\def\@shortauthors{#1}}
@@ -111,12 +120,24 @@
   
   \def\@doi{}
   \newcommand{\doi}[1]{\def\@doi{#1}}
+
+  \def\@datereceived{}
+  \newcommand{\datereceived}[1]{\def\@datereceived{#1}}
+
+  \def\@dateaccepted{}
+  \newcommand{\dateaccepted}[1]{\def\@dateaccepted{#1}}
+
+  \def\@datepublished{}
+  \newcommand{\datepublished}[1]{\def\@datepublished{#1}}
 \fi
 \newcommand{\show@shortauthors}{\@shortauthors}
 \newcommand{\show@volume}{\@volume}
 \newcommand{\show@pubnumber}{\@pubnumber}
 \newcommand{\show@pubyear}{\@pubyear}
 \newcommand{\show@doi}{\@doi}
+\newcommand{\show@datereceived}{\@datereceived}
+\newcommand{\show@dateaccepted}{\@dateaccepted}
+\newcommand{\show@datepublished}{\@datepublished}
 
 
 \newcommand{\firstpage}[1]{\setcounter{page}{#1}}
@@ -147,7 +168,12 @@
                  \raisebox{.4em}{\scriptsize\MakeUppercase{\sc\url{https://doi.org/\show@doi}}}
                  }}
 \fi
-\fancyfoot[RE,LO]{\footnotesize© The author(s). This is an open access article distributed under the \href{https://creativecommons.org/licenses/by/4.0/}{\textsc{cc by} \oldstylenums{4.0} license}}
+\fancyfoot[RE,LO]{%
+  \footnotesize© The author(s). This is an open access article distributed under the \href{https://creativecommons.org/licenses/by/4.0/}{\textsc{cc by} \oldstylenums{4.0} license}%
+  \ifdefempty{\@datereceived}{}{%
+    \\Manuscript received \show@datereceived, accepted \show@dateaccepted, published \show@datepublished%
+  }%
+}
 \fancyfoot[LE,RO]{\smallcaps{\thepage}}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
