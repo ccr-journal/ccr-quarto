@@ -1,9 +1,9 @@
 % Template for CCR Articles (very WIP)
 % 2023 Wouter van Atteveldt, Damian Trilling, Chung-hong Chan, Johannes B. Gruber
-% Version 0.08
+% Version 0.09
 % Please see https://github.com/ccr-journal/ccr-quarto for the latest version of this file
 
-\ProvidesClass{ccr}[2026-04-22 v0.08]
+\ProvidesClass{ccr}[2026-05-10 v0.09]
 \NeedsTeXFormat{LaTeX2e}
 
 \newif\if@review
@@ -272,6 +272,87 @@
   \catcode`\|=12
 \newcommand*{\dotwo}[2]{}
 
+%%%%%%%%%%%%% Label-based author / affiliation API (v0.09+) %%%%%%%%%%%%%%%%%%%
+% New API: \addauthor[label1,label2]{Name} / \addaffiliation{label}[Dept]{Org}{CC}
+% The legacy \authorsnames / \authorsaffiliations API above remains supported;
+% \maketitle auto-detects which one is in use.
+
+\RequirePackage{xparse}
+
+% ISO 3166-1 alpha-2 country codes for affiliation validation.
+% Reference: https://www.iso.org/iso-3166-country-codes.html
+\newcommand*{\ccr@registeriso}[1]{%
+  \expandafter\let\csname ccr@iso@#1\endcsname\@empty
+}
+\forcsvlist{\ccr@registeriso}{%
+  AD,AE,AF,AG,AI,AL,AM,AO,AQ,AR,AS,AT,AU,AW,AX,AZ,
+  BA,BB,BD,BE,BF,BG,BH,BI,BJ,BL,BM,BN,BO,BQ,BR,BS,BT,BV,BW,BY,BZ,
+  CA,CC,CD,CF,CG,CH,CI,CK,CL,CM,CN,CO,CR,CU,CV,CW,CX,CY,CZ,
+  DE,DJ,DK,DM,DO,DZ,
+  EC,EE,EG,EH,ER,ES,ET,
+  FI,FJ,FK,FM,FO,FR,
+  GA,GB,GD,GE,GF,GG,GH,GI,GL,GM,GN,GP,GQ,GR,GS,GT,GU,GW,GY,
+  HK,HM,HN,HR,HT,HU,
+  ID,IE,IL,IM,IN,IO,IQ,IR,IS,IT,
+  JE,JM,JO,JP,
+  KE,KG,KH,KI,KM,KN,KP,KR,KW,KY,KZ,
+  LA,LB,LC,LI,LK,LR,LS,LT,LU,LV,LY,
+  MA,MC,MD,ME,MF,MG,MH,MK,ML,MM,MN,MO,MP,MQ,MR,MS,MT,MU,MV,MW,MX,MY,MZ,
+  NA,NC,NE,NF,NG,NI,NL,NO,NP,NR,NU,NZ,
+  OM,
+  PA,PE,PF,PG,PH,PK,PL,PM,PN,PR,PS,PT,PW,PY,
+  QA,
+  RE,RO,RS,RU,RW,
+  SA,SB,SC,SD,SE,SG,SH,SI,SJ,SK,SL,SM,SN,SO,SR,SS,ST,SV,SX,SY,SZ,
+  TC,TD,TF,TG,TH,TJ,TK,TL,TM,TN,TO,TR,TT,TV,TW,TZ,
+  UA,UG,UM,US,UY,UZ,
+  VA,VC,VE,VG,VI,VN,VU,
+  WF,WS,
+  YE,YT,
+  ZA,ZM,ZW%
+}
+
+% State for the new label-based API
+\newif\if@ccr@newauthors
+\newcounter{ccr@nauthors}
+\newcommand*\ccr@affillabels{}
+
+% \addauthor[label1,label2,...]{Name}
+% At least one affiliation label is required.
+\NewDocumentCommand{\addauthor}{O{} m}{%
+  \edef\ccr@tmplabels{\detokenize{#1}}%
+  \ifx\ccr@tmplabels\@empty
+    \ClassError{ccr}{%
+      \string\addauthor\space requires at least one affiliation label,
+      e.g. \string\addauthor[uva]{Name}}%
+      {Every author must declare at least one affiliation. Use
+      \string\addaffiliation\space to declare an affiliation, then
+      reference its label in the optional argument of \string\addauthor.}%
+  \fi
+  \@ccr@newauthorstrue
+  \stepcounter{ccr@nauthors}%
+  \expandafter\gdef\csname ccr@authorname@\number\value{ccr@nauthors}\endcsname{#2}%
+  \expandafter\gdef\csname ccr@authorlabels@\number\value{ccr@nauthors}\endcsname{#1}%
+}
+
+% \addaffiliation{label}[Department]{University/Organisation}{ISO country code}
+% Country code is validated against ISO 3166-1 alpha-2 and stored uppercased.
+\NewDocumentCommand{\addaffiliation}{m O{} m m}{%
+  \uppercase{\def\ccr@tmpcode{#4}}%
+  \@ifundefined{ccr@iso@\ccr@tmpcode}{%
+    \ClassError{ccr}{%
+      Unknown ISO 3166-1 alpha-2 country code '#4' in affiliation '#1'}%
+      {Use a 2-letter ISO 3166-1 alpha-2 code, e.g. NL, US, DE, GB.}%
+  }{}%
+  \edef\ccr@tmpdept{\detokenize{#2}}%
+  \ifx\ccr@tmpdept\@empty\else
+    \expandafter\gdef\csname ccr@aff@dept@\detokenize{#1}\endcsname{#2}%
+  \fi
+  \expandafter\gdef\csname ccr@aff@org@\detokenize{#1}\endcsname{#3}%
+  \expandafter\xdef\csname ccr@aff@country@\detokenize{#1}\endcsname{\ccr@tmpcode}%
+  \listadd\ccr@affillabels{#1}%
+}
+
 
 %%%%%%%%%%%%%% Title page %%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{calc}
@@ -292,48 +373,129 @@
 \else
   % If a Quarto partial has pre-built the author block (e.g. older
   % extensions defining \ccr@authorblock), use it directly.
-  % Otherwise fall through to the \looptwo dedup logic.
+  % Otherwise pick the new label-based path or the legacy dedup path.
   \@ifundefined{ccr@authorblock}{%
-    % Step 1: Scan affiliations, assign a unique letter to each distinct one.
-    % Affiliation superscripts use alphabetic markers (a, b, c, ...) so they
-    % don't collide visually with numeric footnote marks.
-    \newcounter{uniqaffil}%
-    \renewcommand*{\theuniqaffil}{\alph{uniqaffil}}%
-    \renewcommand*{\do}[1]{%
-      \@ifundefined{ccr@affil@\detokenize{##1}}{%
-        \stepcounter{uniqaffil}%
-        \expandafter\xdef\csname ccr@affil@\detokenize{##1}\endcsname{\theuniqaffil}%
-        \expandafter\gdef\csname ccr@affiltext@\theuniqaffil\endcsname{##1}%
-      }{}%
-    }%
-    \dolistloop{\listaffiliations}%
-    \edef\ccr@totalaffils{\number\value{uniqaffil}}%
-    %
-    % Step 2: Print authors with looked-up superscript letters (italicised
-    % inline so they read as affiliation markers rather than stray letters)
-    \noindent
-    \def\@authsep{}%
-    \renewcommand*{\dotwo}[2]{%
-      \@authsep##1\textsuperscript{\textit{\csname ccr@affil@\detokenize{##2}\endcsname}}%
-      \def\@authsep{, }%
-    }%
-    \looptwo\listauthors\listaffiliations
-    \par\vspace{0.5em}
-    %
-    % Step 3: Print each unique affiliation once
-    % (parskip is zeroed locally so Pandoc-injected parskip from Quarto
-    % renders doesn't spread the affiliation lines apart)
-    {\small\itshape\parskip=0pt\relax
-    \newcounter{affilprint}%
-    \renewcommand*{\theaffilprint}{\alph{affilprint}}%
-    \@whilenum\value{affilprint}<\ccr@totalaffils\do{%
-      \stepcounter{affilprint}%
-      % Measure the superscript+thinspace width so wrapped affiliation lines
-      % hang under the start of the text rather than under the marker.
-      \settowidth{\@tempdima}{\textsuperscript{\theaffilprint}\,}%
-      \noindent\hangindent=\@tempdima\hangafter=1
-      \textsuperscript{\theaffilprint}\,\csname ccr@affiltext@\theaffilprint\endcsname\par
-    }}%
+    \if@ccr@newauthors
+      %%%%%%%%%%% New label-based rendering %%%%%%%%%%%
+      % Pass 1: assign letters to labels in order of first reference, and
+      % verify each referenced label has a matching \addaffiliation.
+      % We use \@for (not \forcsvlist) for the per-author label loop because
+      % \@for \edef-expands its list argument, so each iteration variable
+      % holds the actual label characters rather than a macro reference.
+      \newcounter{uniqaffil}%
+      \renewcommand*{\theuniqaffil}{\alph{uniqaffil}}%
+      \@tempcnta=\z@
+      \loop\ifnum\@tempcnta<\value{ccr@nauthors}\relax
+        \advance\@tempcnta\@ne
+        \edef\ccr@curlabels{\csname ccr@authorlabels@\the\@tempcnta\endcsname}%
+        \@for\ccr@one:=\ccr@curlabels\do{%
+          \edef\ccr@onekey{\detokenize\expandafter{\ccr@one}}%
+          \@ifundefined{ccr@affil@\ccr@onekey}{%
+            \@ifundefined{ccr@aff@org@\ccr@onekey}{%
+              \ClassError{ccr}{%
+                Affiliation label '\ccr@onekey' was used by
+                \string\addauthor\space but not declared with
+                \string\addaffiliation}%
+                {Add: \string\addaffiliation{\ccr@onekey}[Department]{University}{XX}}%
+            }{}%
+            \stepcounter{uniqaffil}%
+            \expandafter\xdef\csname ccr@affil@\ccr@onekey\endcsname{\theuniqaffil}%
+            \expandafter\xdef\csname ccr@affillabel@\theuniqaffil\endcsname{\ccr@onekey}%
+          }{}%
+        }%
+      \repeat
+      \edef\ccr@totalaffils{\number\value{uniqaffil}}%
+      % Warn about declared-but-unreferenced affiliations.
+      % \forlistloop pre-expands its list argument, so this works directly.
+      \def\ccr@checkunused##1{%
+        \edef\ccr@unusedkey{\detokenize{##1}}%
+        \@ifundefined{ccr@affil@\ccr@unusedkey}{%
+          \ClassWarning{ccr}{%
+            Affiliation '##1' is declared but not referenced by any author}%
+        }{}%
+      }%
+      \forlistloop{\ccr@checkunused}{\ccr@affillabels}%
+      %
+      % Pass 2: print authors, each with their (possibly multi-letter) superscript
+      \noindent
+      \def\@authsep{}%
+      \@tempcnta=\z@
+      \loop\ifnum\@tempcnta<\value{ccr@nauthors}\relax
+        \advance\@tempcnta\@ne
+        \@authsep
+        \csname ccr@authorname@\the\@tempcnta\endcsname
+        \edef\ccr@curlabels{\csname ccr@authorlabels@\the\@tempcnta\endcsname}%
+        \textsuperscript{\textit{%
+          \def\ccr@labsep{}%
+          \@for\ccr@one:=\ccr@curlabels\do{%
+            \ccr@labsep
+            \edef\ccr@onekey{\detokenize\expandafter{\ccr@one}}%
+            \csname ccr@affil@\ccr@onekey\endcsname
+            \def\ccr@labsep{,}%
+          }%
+        }}%
+        \def\@authsep{, }%
+      \repeat
+      \par\vspace{0.5em}
+      %
+      % Pass 3: print each unique affiliation once.
+      % (parskip is zeroed locally so Pandoc-injected parskip from Quarto
+      % renders doesn't spread the affiliation lines apart)
+      {\small\itshape\parskip=0pt\relax
+      \newcounter{affilprint}%
+      \renewcommand*{\theaffilprint}{\alph{affilprint}}%
+      \@whilenum\value{affilprint}<\ccr@totalaffils\do{%
+        \stepcounter{affilprint}%
+        \edef\ccr@thislab{\csname ccr@affillabel@\theaffilprint\endcsname}%
+        \settowidth{\@tempdima}{\textsuperscript{\theaffilprint}\,}%
+        \noindent\hangindent=\@tempdima\hangafter=1
+        \textsuperscript{\theaffilprint}\,%
+        \@ifundefined{ccr@aff@dept@\ccr@thislab}{}{%
+          \csname ccr@aff@dept@\ccr@thislab\endcsname, %
+        }%
+        \csname ccr@aff@org@\ccr@thislab\endcsname, %
+        \csname ccr@aff@country@\ccr@thislab\endcsname
+        \par
+      }}%
+    \else
+      %%%%%%%%%%% Legacy dedup rendering (\authorsnames / \authorsaffiliations) %%%%%%%%%%%
+      % Step 1: Scan affiliations, assign a unique letter to each distinct one.
+      % Affiliation superscripts use alphabetic markers (a, b, c, ...) so they
+      % don't collide visually with numeric footnote marks.
+      \newcounter{uniqaffil}%
+      \renewcommand*{\theuniqaffil}{\alph{uniqaffil}}%
+      \renewcommand*{\do}[1]{%
+        \@ifundefined{ccr@affil@\detokenize{##1}}{%
+          \stepcounter{uniqaffil}%
+          \expandafter\xdef\csname ccr@affil@\detokenize{##1}\endcsname{\theuniqaffil}%
+          \expandafter\gdef\csname ccr@affiltext@\theuniqaffil\endcsname{##1}%
+        }{}%
+      }%
+      \dolistloop{\listaffiliations}%
+      \edef\ccr@totalaffils{\number\value{uniqaffil}}%
+      %
+      % Step 2: Print authors with looked-up superscript letters (italicised
+      % inline so they read as affiliation markers rather than stray letters)
+      \noindent
+      \def\@authsep{}%
+      \renewcommand*{\dotwo}[2]{%
+        \@authsep##1\textsuperscript{\textit{\csname ccr@affil@\detokenize{##2}\endcsname}}%
+        \def\@authsep{, }%
+      }%
+      \looptwo\listauthors\listaffiliations
+      \par\vspace{0.5em}
+      %
+      % Step 3: Print each unique affiliation once
+      {\small\itshape\parskip=0pt\relax
+      \newcounter{affilprint}%
+      \renewcommand*{\theaffilprint}{\alph{affilprint}}%
+      \@whilenum\value{affilprint}<\ccr@totalaffils\do{%
+        \stepcounter{affilprint}%
+        \settowidth{\@tempdima}{\textsuperscript{\theaffilprint}\,}%
+        \noindent\hangindent=\@tempdima\hangafter=1
+        \textsuperscript{\theaffilprint}\,\csname ccr@affiltext@\theaffilprint\endcsname\par
+      }}%
+    \fi
   }{%
     \ccr@authorblock
   }%
