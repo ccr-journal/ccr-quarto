@@ -1,14 +1,28 @@
 ---
 title: "Title of your article"
-# If two or more authors share the same affiliation, repeat the string —
-# the class deduplicates them and assigns a single alphabetic marker.
+# Authors reference shared affiliations by `id`. Each affiliation needs a
+# `name` (organisation) and `country` (ISO 3166-1 alpha-2, e.g. NL, US, DE);
+# `department` is optional. An author can list multiple affiliations.
 author:
   - name: First Author
-    affiliation: Department of Communication Science, Some University, Somewhere
+    affiliations:
+      - ref: vu
   - name: Second Author
-    affiliation: Department of Communication Science, Some University, Somewhere
+    affiliations:
+      - ref: vu
+      - ref: uva
   - name: Third Author
-    affiliation: Department of Communication Science, Another University, Somewhere Else
+    affiliations:
+      - ref: uva
+affiliations:
+  - id: vu
+    department: Department of Communication Science
+    name: Vrije Universiteit Amsterdam
+    country: NL
+  - id: uva
+    department: Amsterdam School of Communication Research
+    name: University of Amsterdam
+    country: NL
 abstract: |
   A brief abstract that describes the study and main findings.
   In this template document, we will mainly give some examples of using Quarto.

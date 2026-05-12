@@ -18,9 +18,16 @@ The YAML front matter must include:
 title: "Your Article Title"
 author:
 - name: First Author
-  affiliation: Department, University, Country
+  affiliations:
+    - ref: uni-a
 - name: Second Author
-  affiliation: Department, University, Country
+  affiliations:
+    - ref: uni-a
+affiliations:
+  - id: uni-a
+    department: Department of Communication
+    name: University of Example
+    country: NL
 abstract: |
   Your abstract text here.
 keywords: keyword1, keyword2, keyword3
@@ -51,17 +58,29 @@ Journal metadata (DOI, volume, issue, dates, …) is described in [Journal metad
 
 ### Authors and affiliations
 
-Each author needs a `name` and `affiliation` (or `affiliations` for multiple):
+Affiliations are declared once at the top level under `affiliations:`, each with an `id` that authors reference via `ref:`. An author can list multiple affiliations.
 
 ```yaml
 author:
 - name: Jane Doe
-  affiliation: Department of Communication, University of Example, Country
+  affiliations:
+    - ref: uni-a
 - name: John Smith
   affiliations:
-    - name: First Department, University A, Country
-    - name: Second Department, University B, Country
+    - ref: uni-a
+    - ref: uni-b
+affiliations:
+  - id: uni-a
+    department: Department of Communication
+    name: University A
+    country: NL
+  - id: uni-b
+    department: School of Media Studies
+    name: University B
+    country: DE
 ```
+
+**Required fields on each affiliation:** `id`, `name` (the organisation), and `country` as an [ISO 3166-1 alpha-2](https://www.iso.org/iso-3166-country-codes.html) code (`NL`, `US`, `DE`, `GB`, …). `department` is optional. The CCR LaTeX class validates the country code at render time and will error on unknown codes or missing values.
 
 ### Corresponding author
 
@@ -69,7 +88,8 @@ Mark the corresponding author using an inline footnote on the author name:
 
 ```yaml
 - name: Jane Doe^[**Corresponding author**. University of Example, Country, jane@example.edu.]
-  affiliation: Department of Communication, University of Example, Country
+  affiliations:
+    - ref: uni-a
 ```
 
 ---
