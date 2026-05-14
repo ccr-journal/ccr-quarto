@@ -1,9 +1,9 @@
 % Template for CCR Articles (very WIP)
 % 2023 Wouter van Atteveldt, Damian Trilling, Chung-hong Chan, Johannes B. Gruber
-% Version 0.09
+% Version 0.10
 % Please see https://github.com/ccr-journal/ccr-quarto for the latest version of this file
 
-\ProvidesClass{ccr}[2026-05-10 v0.09]
+\ProvidesClass{ccr}[2026-05-13 v0.10]
 \NeedsTeXFormat{LaTeX2e}
 
 \newif\if@review
@@ -311,6 +311,9 @@
   YE,YT,
   ZA,ZM,ZW%
 }
+% User-assigned code (not in ISO 3166-1) accepted as the de facto standard for
+% Kosovo, used by the EU, IMF, World Bank, and SWIFT.
+\forcsvlist{\ccr@registeriso}{XK}
 
 % State for the new label-based API
 \newif\if@ccr@newauthors
