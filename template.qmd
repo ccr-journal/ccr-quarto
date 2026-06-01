@@ -27,12 +27,9 @@ abstract: |
   A brief abstract that describes the study and main findings.
   In this template document, we will mainly give some examples of using Quarto.
 keywords: some, useful, keywords
-volume: "?"
-pubnumber: "?"
-pubyear: "20??"
-firstpage: 1
+# Volume, issue, page, DOI, and dates are injected automatically by the journal's
+# production system on acceptance; leave them out here.
 bibliography: bibliography.bib
-doi: "10.5117/CCR????"
 shortauthors: First et al.
 format:
   ccr-pdf:
