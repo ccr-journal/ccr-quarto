@@ -1,9 +1,9 @@
 % Template for CCR Articles (very WIP)
 % 2023 Wouter van Atteveldt, Damian Trilling, Chung-hong Chan, Johannes B. Gruber
-% Version 0.10
+% Version 0.11
 % Please see https://github.com/ccr-journal/ccr-quarto for the latest version of this file
 
-\ProvidesClass{ccr}[2026-05-13 v0.10]
+\ProvidesClass{ccr}[2026-06-01 v0.11]
 \NeedsTeXFormat{LaTeX2e}
 
 \newif\if@review
@@ -11,8 +11,26 @@
 \newif\if@loadbiblatex
 \@loadbiblatextrue
 
+% Editorially-reviewed submission types (tool / data announcements).
+% These are reviewed by the editors rather than peer-reviewed; the class
+% prints a short note saying so. JATSmith injects the relevant option.
+\newif\if@ccr@announcement
+\@ccr@announcementfalse
+\def\ccr@announcetype{}
+\def\ccr@reviewnote{}
+
 \DeclareOption{review}{\@reviewtrue}
 \DeclareOption{nobib}{\@loadbiblatexfalse}
+\DeclareOption{toolannouncement}{%
+  \@ccr@announcementtrue
+  \def\ccr@announcetype{Tool Announcement}%
+  \def\ccr@reviewnote{This tool announcement was editorially reviewed.}%
+}
+\DeclareOption{dataannouncement}{%
+  \@ccr@announcementtrue
+  \def\ccr@announcetype{Data Announcement}%
+  \def\ccr@reviewnote{This data announcement was editorially reviewed.}%
+}
 \ProcessOptions\relax
 
 \RequirePackage{ifxetex}
@@ -173,6 +191,7 @@
   \ifdefempty{\@datereceived}{}{%
     \\Manuscript received \show@datereceived, accepted \show@dateaccepted, published \show@datepublished%
   }%
+  \if@ccr@announcement\\\textit{\ccr@reviewnote}\fi
 }
 \fancyfoot[LE,RO]{\smallcaps{\thepage}}
 \renewcommand{\headrulewidth}{0pt}
